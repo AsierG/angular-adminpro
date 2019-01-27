@@ -6,11 +6,11 @@
                 <h4 class="card-title">Progress bar</h4>
 
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.ariaValuenow]="percentage" aria-valuemin="0" aria-valuemax="100" [style.width]="percentage + '%'"></div>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.ariaValuenow]="progress1" aria-valuemin="0" aria-valuemax="100" [style.width]="progress1 + '%'"></div>
                 </div>
                 <br>
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValuenow]="percentage" aria-valuemin="0" aria-valuemax="100" [style.width]="percentage + '%'"></div>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValuenow]="progress2" aria-valuemin="0" aria-valuemax="100" [style.width]="progress2 + '%'"></div>
                 </div>
 
             </div>
@@ -22,14 +22,14 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <app-increaser legendName="Blue Progress" [percentage]="20"></app-increaser>
+                <app-increaser (valueChange)="progress1 = $event" legendName="Blue Progress" [percentage]="progress1"></app-increaser>
             </div>
         </div>
     </div>
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <app-increaser legendName="Green Progress" [percentage]="70"></app-increaser>
+                <app-increaser (valueChange)="progress2 = $event" legendName="Green Progress" [percentage]="progress2"></app-increaser>
             </div>
         </div>
     </div>
