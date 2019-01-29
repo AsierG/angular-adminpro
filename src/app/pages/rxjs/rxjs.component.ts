@@ -59,7 +59,7 @@ export class RxjsComponent implements OnInit, OnDestroy {
       }, 1000);
 
     }).pipe(
-      map(resp => resp.countValue),
+      map((resp: any) => resp.countValue),
       filter((value, index) => {
         if ((value % 2) === 1) {
           // impar
