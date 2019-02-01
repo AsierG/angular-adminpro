@@ -18,6 +18,11 @@ export class UserService {
     console.log('UserService ready');
   }
 
+  login(user: User, rememberme: boolean = false) {
+    const url = URL_SERVICES + '/login';
+    return this.http.post(url, user);
+  }
+
   createUser( user: User) {
     const url = URL_SERVICES + '/usuario';
     return this.http.post(url, user).pipe(
