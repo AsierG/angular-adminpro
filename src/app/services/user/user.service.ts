@@ -6,6 +6,8 @@ import { URL_SERVICES } from '../../config/config';
 // import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
 import swal from 'sweetalert';
+import { Router } from '@angular/router';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +18,25 @@ export class UserService {
   token: string;
 
   constructor(
-    public http: HttpClient
+    public http: HttpClient,
+    public router: Router
   ) {
+    this.loadStorage();
     console.log('UserService ready');
+  }
+
+  isLoged() {
+    return ( this.token.length > 5) ? true : false;
+  }
+
+  loadStorage() {
+    if (localStorage.getItem('token')) {
+      this.token = localStorage.getItem('token');
+      this.user = JSON.parse(localStorage.getItem('user'));
+    } else {
+      this.token = '';
+      this.user = null;
+    }
   }
 
   saveStorage(id: string, token: string, user: User) {
@@ -38,6 +56,14 @@ export class UserService {
                     this.saveStorage(resp.id, resp.token, resp.usuario);
                     return true;
                   }));
+  }
+
+  logout() {
+    this.user = null;
+    this.token = '';
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    this.router.navigate(['/login']);
   }
 
   login(user: User, rememberme: boolean = false) {
