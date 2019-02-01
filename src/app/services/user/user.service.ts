@@ -19,8 +19,21 @@ export class UserService {
   }
 
   login(user: User, rememberme: boolean = false) {
+
+    if (rememberme) {
+      localStorage.setItem('email', user.email);
+    } else {
+      localStorage.removeItem('email');
+    }
+
     const url = URL_SERVICES + '/login';
-    return this.http.post(url, user);
+    return this.http.post(url, user).pipe(
+      map( (resp: any) => {
+        localStorage.setItem('id', resp.id);
+        localStorage.setItem('token', resp.token);
+        localStorage.setItem('user', JSON.stringify(resp.usuario));
+        return true;
+      }));
   }
 
   createUser( user: User) {

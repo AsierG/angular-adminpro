@@ -13,6 +13,7 @@ declare function init_plugins();
 })
 export class LoginComponent implements OnInit {
 
+  email: string;
   rememberme: boolean = false;
 
   constructor(public router: Router,
@@ -20,9 +21,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     init_plugins();
+    this.email = localStorage.getItem('email') || '';
+    if (this.email.length > 1) {
+      this.rememberme = true;
+    }
   }
 
-  logging(form: NgForm) {
+  login(form: NgForm) {
     if (form.invalid) {
       return;
     }
@@ -30,9 +35,7 @@ export class LoginComponent implements OnInit {
     const user = new User(null, form.value.email, form.value.password);
 
     this._userService.login(user, form.value.rememberme)
-                  .subscribe(resp => {
-                      console.log(resp);
-                  });
+                  .subscribe(resp => this.router.navigate(['/dashboard']));
 
     console.log(form.valid);
     console.log(form.value);
