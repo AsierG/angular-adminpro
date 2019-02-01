@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 
-//ng2-charts
+// ng2-charts
 import { ChartsModule } from 'ng2-charts';
 
 import { PagesComponent } from './pages.component';
@@ -13,12 +13,16 @@ import { ProgressComponent } from './progress/progress.component';
 import { Graphics1Component } from './graphics1/graphics1.component';
 import { PAGES_ROUTES } from './pages.routes';
 
-//temporal
+// Pipe module
+import { PipesModule } from '../pipes/pipes.module';
+
+// temporal
 import { IncreaserComponent } from '../components/increaser/increaser.component';
 import { GraphicDonaComponent } from '../components/graphic-dona/graphic-dona.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+
 
 @NgModule({
     declarations: [
@@ -42,7 +46,8 @@ import { RxjsComponent } from './rxjs/rxjs.component';
         SharedModule,
         PAGES_ROUTES,
         FormsModule,
-        ChartsModule
+        ChartsModule,
+        PipesModule
     ]
 })
 
