@@ -91,4 +91,11 @@ export class UserService {
               }));
   }
 
+  updateUser( user: User) {
+    let url = URL_SERVICES + '/usuario/' + user._id;
+    url += '?token=' + this.token;
+    console.log(url);
+    return this.http.put(url, user);
+  }
+
 }
