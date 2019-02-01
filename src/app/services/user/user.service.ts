@@ -12,10 +12,32 @@ import swal from 'sweetalert';
 })
 export class UserService {
 
+  user: User;
+  token: string;
+
   constructor(
     public http: HttpClient
   ) {
     console.log('UserService ready');
+  }
+
+  saveStorage(id: string, token: string, user: User) {
+    localStorage.setItem('id', id);
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+
+    this.user = user;
+    this.token = token;
+  }
+
+  loginGoogle(token: string) {
+    const url = URL_SERVICES + '/login/google';
+
+    return this.http.post(url, {token}).pipe(
+                  map( (resp: any) => {
+                    this.saveStorage(resp.id, resp.token, resp.usuario);
+                    return true;
+                  }));
   }
 
   login(user: User, rememberme: boolean = false) {
@@ -29,9 +51,7 @@ export class UserService {
     const url = URL_SERVICES + '/login';
     return this.http.post(url, user).pipe(
       map( (resp: any) => {
-        localStorage.setItem('id', resp.id);
-        localStorage.setItem('token', resp.token);
-        localStorage.setItem('user', JSON.stringify(resp.usuario));
+        this.saveStorage(resp.id, resp.token, resp.usuario);
         return true;
       }));
   }
