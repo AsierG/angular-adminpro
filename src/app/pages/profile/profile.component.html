@@ -17,7 +17,7 @@
                         <label for="exampleInputEmail1">Email address</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-email"></i></div>
-                            <input [ngModel]="user.email" name="email" type="email" class="form-control" placeholder="Enter email" required>
+                            <input [ngModel]="user.email" [disabled]="user.google" name="email" type="email" class="form-control" placeholder="Enter email" required>
                         </div>
                     </div>
 
@@ -32,16 +32,17 @@
 
     <div class="col-lg-5">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body" align="center">
                 <h4 class="card-title">User Profile</h4>
                 <h6 class="card-subtitle">User name</h6>
 
-                <img src="">
+                <img *ngIf="!tempFile" [src]="user.img | imagen" class="w150">
+                <img *ngIf="tempFile" [src]="tempFile" class="w150">
 
-                <input type="file">
+                <input (change)="imageSelection( $event.target.files[0])" type="file">
 
                 <br><br>
-                <button type="button" class="btn btn-success waves-effect waves-light m-r-10">
+                <button (click)="changeImage()" [disabled]="!uploadFile" type="button" class="btn btn-success waves-effect waves-light m-r-10">
                     <i class="fa fa-save"></i>
                     Update photo
                   </button>

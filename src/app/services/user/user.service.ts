@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import swal from 'sweetalert';
 import { Router } from '@angular/router';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
+import { UploadFileService } from '../upload-file/upload-file.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class UserService {
 
   constructor(
     public http: HttpClient,
-    public router: Router
+    public router: Router,
+    public _uploadFileService: UploadFileService
   ) {
     this.loadStorage();
     console.log('UserService ready');
@@ -94,8 +96,26 @@ export class UserService {
   updateUser( user: User) {
     let url = URL_SERVICES + '/usuario/' + user._id;
     url += '?token=' + this.token;
-    console.log(url);
-    return this.http.put(url, user);
+    return this.http.put(url, user).pipe(
+      map( (resp: any) => {
+         const userDB: User = resp.usuario;
+         this.saveStorage(userDB._id, this.token, userDB);
+         swal('User updated', user.nombre, 'success');
+         return true;
+      }));
+  }
+
+  changeImage( file: File, id: string ) {
+
+    this._uploadFileService.uploadFile(file, 'usuarios', id)
+          .then( (resp: any) => {
+            this.user.img = resp.usuario.img;
+            swal( 'Imagen Actualizada', this.user.nombre, 'success' );
+            this.saveStorage( id, this.token, this.user );
+          })
+          .catch( resp => {
+            console.log( resp );
+          }) ;
   }
 
 }
