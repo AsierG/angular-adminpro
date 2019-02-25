@@ -118,4 +118,9 @@ export class UserService {
           }) ;
   }
 
+  loadUsers( from: number = 0) {
+    const url = URL_SERVICES + '/usuario?desde=' + from + '&token=' + this.token;
+    return this.http.get(url);
+  }
+
 }
