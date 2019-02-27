@@ -3,14 +3,14 @@
         <div class="card">
             <div class="card-body">
 
-                <input #input type="text" class="form-control" placeholder="Buscar usuario...">
+                <input #input (keyup)="searchUser( input.value )" type="text" class="form-control" placeholder="Buscar usuario...">
 
             </div>
         </div>
     </div>
 </div>
 
-<div class="row  animated fadeIn">
+<div class="row animated fadeIn" *ngIf="loading">
 
     <div class="col-sm-12">
         <div class="alert alert-warning text-center">
@@ -24,7 +24,7 @@
 
 </div>
 
-<div class="row animated fadeIn">
+<div class="row animated fadeIn" *ngIf="!loading">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -44,6 +44,9 @@
 
                     <tbody>
                         <tr *ngFor="let user of users">
+                            <td class="w70">
+                                <img [src]="user.img | imagen" class="img-50 img-circle">
+                            </td>
                             <td>
                                 {{user.email}}
                             </td>
@@ -54,14 +57,14 @@
                                 {{user.role}}
                             </td>
                             <td>
-                                <label class="label label-danger">Google</label>
-                                <label class="label label-primary">Normal</label>
+                                <label *ngIf="user.google" class="label label-danger">Google</label>
+                                <label *ngIf="!user.google" class="label label-primary">Normal</label>
                             </td>
                             <td>
                                 <button class="btn btn-primary">
                                   <i class="fa fa-save"></i>
                                 </button>
-                                <button class="btn btn-danger">
+                                <button (click)="deleteUser(user)" class="btn btn-danger">
                                 <i class="fa fa-trash-o"></i>
                               </button>
                             </td>

@@ -123,4 +123,19 @@ export class UserService {
     return this.http.get(url);
   }
 
+  searchUsers( term: string) {
+    const url = URL_SERVICES + '/busqueda/coleccion/usuarios/' + term;
+    return this.http.get(url).pipe(
+      map( (resp: any) => resp.usuarios));
+  }
+
+  deleteUser(id: string) {
+    const url = URL_SERVICES + '/usuario/' + id + '?token=' + this.token;
+    return this.http.delete(url).pipe(
+        map( resp => {
+          swal('User deleted', 'User deleted correctly', 'success');
+          return true;
+        }));
+  }
+
 }
