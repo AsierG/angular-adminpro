@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user/user.service';
 import { URL_SERVICES } from '../../config/config';
+import { ModalUploadService } from '../../components/modal-upload/components/modal-upload/modal-upload.service';
 
 declare var swal: any;
 
@@ -18,10 +19,19 @@ export class UsersComponent implements OnInit {
   totalRegisters: number = 0;
   loading: boolean = true;
 
-  constructor(public _userService: UserService) { }
+  constructor(public _userService: UserService,
+    public _modalUploadService: ModalUploadService) { }
 
   ngOnInit() {
     this.loadUsers();
+
+    this._modalUploadService.notification
+      .subscribe(() => this.loadUsers());
+  }
+
+  showModal(id: string) {
+    console.log('show modal, userId: ' + id);
+    this._modalUploadService.showModal('usuarios', id);
   }
 
   changeFrom( value: number ) {
@@ -65,6 +75,7 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(user: User) {
+
     if ( user._id === this._userService.user._id) {
       swal('Can not delete user', 'He can not erase himself', 'error');
       return;
@@ -90,6 +101,11 @@ export class UsersComponent implements OnInit {
       }
     });
 
+  }
+
+  saveUser(user: User) {
+    this._userService.updateUser(user)
+      .subscribe();
   }
 
 }

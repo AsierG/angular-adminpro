@@ -56,8 +56,6 @@ export class ProfileComponent implements OnInit {
 
     reader.onloadend = () => this.tempFile = reader.result;
 
-
-
   }
 
   changeImage() {

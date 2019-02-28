@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { reject } from 'q';
 import { URL_SERVICES } from '../../config/config';
 
 @Injectable({

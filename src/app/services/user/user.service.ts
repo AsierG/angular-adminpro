@@ -98,10 +98,13 @@ export class UserService {
     url += '?token=' + this.token;
     return this.http.put(url, user).pipe(
       map( (resp: any) => {
-         const userDB: User = resp.usuario;
-         this.saveStorage(userDB._id, this.token, userDB);
-         swal('User updated', user.nombre, 'success');
-         return true;
+
+        if (user._id === this.user._id) {
+            const userDB: User = resp.usuario;
+            this.saveStorage(userDB._id, this.token, userDB);
+        }
+        swal('User updated', user.nombre, 'success');
+        return true;
       }));
   }
 
